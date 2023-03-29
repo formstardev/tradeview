@@ -8,7 +8,7 @@ import argparse
 import webbrowser
 from threading import Timer
 from websvc.app import app
-
+USER = os.getlogin()
 parser = argparse.ArgumentParser(description="Coin Trading Web Portal")
 parser.add_argument(
     "--host",
@@ -19,6 +19,12 @@ parser.add_argument(
     "--port",
     type=int,
     help="web service port (default: 5000)",
+)
+parser.add_argument(
+    "--user",
+    type=str,
+    default=USER,
+    help="User name",
 )
 parser.add_argument("--quiet", action="store_true", help="don't open browser")
 parser.add_argument("--debug", action="store_true", help="enable debugging")
