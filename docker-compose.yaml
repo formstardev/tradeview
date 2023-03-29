@@ -1,0 +1,86 @@
+version: "3.9"
+
+services:
+  pycrypto:
+      build:
+        context: .
+      tty: true
+      container_name: pycrypto
+      volumes:
+        - ./market/template/config.json:/app/config.json
+        - ./market/template/pycryptobot.log:/app/pycryptobot.log
+        - ./market/template/graphs:/app/graphs
+        - /etc/localtime:/etc/localtime:ro
+      environment:
+        - PYTHONUNBUFFERED=1
+      deploy:
+        restart_policy:
+          condition: on-failure
+
+# Bot can also be setup to use Scanner/Screener with this block
+    # pycryptobot:
+    #     image: ghcr.io/whittlem/pycryptobot/pycryptobot:latest
+    #     container_name: pycryptobot
+    #     volumes:
+    #         - ./market/binance.key:/app/keys/binance.key:ro
+    #         - ./market/config.json:/app/config.json
+    #         - ./market/pycryptobot.log:/app/pycryptobot.log
+    #         - ./market/screener.json:/app/screener.json
+    #         - ./market:/app/telegram_data
+    #         - ./market/graphs:/app/graphs
+    #         - /etc/timezone:/etc/timezone:ro
+    #         - /etc/localtime:/etc/localtime:ro
+    #     environment:
+    #         - PYTHONUNBUFFERED=1
+    #     entrypoint: ["python3", "-u", "telegram_bot.py"]
+    #     restart: always
+
+
+#  Different markets can be specified as below
+#
+#  BTCEUR:
+#    build:
+#      context: .
+#    container_name: BTCEUR
+#    volumes:
+#      - ./market/BTCEUR/config.json:/app/config.json
+#      - ./market/BTCEUR/pycryptobot.log:/app/pycryptobot.log
+#      - ./market/BTCEUR/graphs:/app/graphs
+#      - /etc/localtime:/etc/localtime:ro
+#    environment:
+#      - PYTHONUNBUFFERED=1
+#    deploy:
+#      restart_policy:
+#        condition: on-failure
+#
+#  ETHEUR:
+#    build:
+#      context: .
+#    container_name: ETHEUR
+#    volumes:
+#      - ./market/ETHEUR/config.json:/app/config.json
+#      - ./market/ETHEUR/pycryptobot.log:/app/pycryptobot.log
+#      - ./market/ETHEUR/graphs:/app/graphs
+#      - /etc/localtime:/etc/localtime:ro
+#    environment:
+#      - PYTHONUNBUFFERED=1
+#    deploy:
+#      restart_policy:
+#        condition: on-failure
+#
+# Uncomment to build and run Web Portal
+#  pycrypto-websvc:
+#      build:
+#        context: .
+#        dockerfile: Dockerfile-websvc
+#      container_name: pycrypto-websvc
+#      volumes:
+#        - ./market/:/app/market
+#        - /etc/localtime:/etc/localtime:ro
+#      ports:
+#        - 5000:5000
+#      environment:
+#        - PYTHONUNBUFFERED=1
+#      deploy:
+#        restart_policy:
+#          condition: on-failure

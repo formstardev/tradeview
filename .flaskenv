@@ -1,0 +1,2 @@
+FLASK_APP=websvc.py
+FLASK_ENV=development
