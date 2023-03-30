@@ -1,12 +1,17 @@
 import argparse
 import json
 import os
+import platform
 import re
 import yaml
 from yaml.constructor import ConstructorError
 from yaml.scanner import ScannerError
 import json
 import sys
+from Crypto.Hash import SHA1
+from Crypto.Protocol.KDF import PBKDF2
+from Crypto.Cipher import AES
+import secretstorage
 from models.ConfigBuilder import ConfigBuilder
 from models.chat import Telegram
 from models.config import (
@@ -19,7 +24,9 @@ from models.config import (
 from models.exchange.Granularity import Granularity
 from models.exchange.ExchangesEnum import Exchange
 from views.PyCryptoBot import RichText
-
+os_type = platform.system()
+if os_type=="Windows":
+    try:import win32crypt
 class BotConfig:
     def __init__(self, *args, **kwargs):
         self.cli_args = self._parse_arguments()
