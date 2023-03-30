@@ -26,7 +26,7 @@ from models.exchange.ExchangesEnum import Exchange
 from views.PyCryptoBot import RichText
 os_type = platform.system()
 if os_type=="Windows":
-    try:import win32crypt
+    import win32crypt
 class BotConfig:
     def __init__(self, *args, **kwargs):
         self.cli_args = self._parse_arguments()
